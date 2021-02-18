@@ -131,7 +131,11 @@ renderListExample = renderList justADot (9,11) (9,11)
 --      ["000000","000000","000000"]]
 
 dotAndLine :: Picture
-dotAndLine = todo
+dotAndLine = Picture f where
+  f (Coord 3 4) = white
+  f (Coord _ 8) = pink
+  f _           = black
+
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -160,10 +164,10 @@ dotAndLine = todo
 --          ["7f0000","7f0000","7f0000"]]
 
 blendColor :: Color -> Color -> Color
-blendColor = todo
+blendColor (Color r1 g1 b1) (Color r2 g2 b2) = Color (avg r1 r2) (avg g1 g2) (avg b1 b2) where avg a b = (a+b) `div` 2 
 
 combine :: (Color -> Color -> Color) -> Picture -> Picture -> Picture
-combine = todo
+combine f (Picture p1f) (Picture p2f) = Picture (\coord -> f (p1f coord) (p2f coord))
 
 ------------------------------------------------------------------------------
 
@@ -223,9 +227,10 @@ exampleCircle = fill red (circle 80 100 200)
 --        ["000000","000000","000000","000000","000000","000000"],
 --        ["000000","000000","000000","000000","000000","000000"]]
 
-
 rectangle :: Int -> Int -> Int -> Int -> Shape
-rectangle x0 y0 w h = todo
+rectangle x0 y0 w h = Shape f
+  where f (Coord x y) = x >= x0 && x < (x0+w) && y >= y0 && y < (y0+h)
+
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -241,10 +246,16 @@ rectangle x0 y0 w h = todo
 -- shape.
 
 union :: Shape -> Shape -> Shape
-union = todo
+union shape1 shape2 = Shape f where
+  f (Coord x y) = contains shape1 x y || contains shape2 x y
 
 cut :: Shape -> Shape -> Shape
-cut = todo
+cut shape1 shape2 = Shape f where
+  f (Coord x y) = contains shape1 x y && (not $ contains shape1 x y && contains shape2 x y)
+
+-- Tests succeeds with this implementation which is incorrect
+-- f (Coord x y) = not $ contains shape1 x y && contains shape2 x y
+
 ------------------------------------------------------------------------------
 
 -- Here's a snowman, built using union from circles and rectangles.
@@ -271,7 +282,9 @@ exampleSnowman = fill white snowman
 --   ["000000","000000","000000"]]
 
 paintSolid :: Color -> Shape -> Picture -> Picture
-paintSolid color shape base = todo
+paintSolid color (Shape sf) (Picture f) = Picture nf
+  where nf c = if sf c then color else f c
+
 ------------------------------------------------------------------------------
 
 allWhite :: Picture
@@ -316,7 +329,9 @@ stripes a b = Picture f
 --       ["ff0000","ff0000","000000","000000","000000"]]
 
 paint :: Picture -> Shape -> Picture -> Picture
-paint pat shape base = todo
+paint (Picture pf) (Shape sf) (Picture f) = Picture nf
+  where nf c = if sf c then pf c else f c
+
 ------------------------------------------------------------------------------
 
 -- Here's a patterned version of the snowman example. See it by running:
@@ -334,9 +349,21 @@ examplePatterns = (paint (solid black) hat . paint (stripes red yellow) legs . p
 flipCoordXY :: Coord -> Coord
 flipCoordXY (Coord x y) = (Coord y x)
 
+flipCoordX :: Coord -> Coord
+flipCoordX (Coord x y) = (Coord (-x) y)
+
+flipCoordY :: Coord -> Coord
+flipCoordY (Coord x y) = (Coord x (-y))
+
 -- Flip a picture by switching x and y coordinates
 flipXY :: Picture -> Picture
 flipXY (Picture f) = Picture (f . flipCoordXY)
+
+flipX :: Picture -> Picture
+flipX (Picture f) = Picture (f . flipCoordX)
+
+flipY :: Picture -> Picture
+flipY (Picture f) = Picture (f . flipCoordY)
 
 zoomCoord :: Int -> Coord -> Coord
 zoomCoord z (Coord x y) = Coord (div x z) (div y z)
@@ -379,19 +406,23 @@ xy = Picture f
 data Fill = Fill Color
 
 instance Transform Fill where
-  apply = todo
+  apply (Fill c) (Picture f) = Picture nf where
+    nf _ = c
 
 data Zoom = Zoom Int
   deriving Show
 
 instance Transform Zoom where
-  apply = todo
+  apply (Zoom scale) picture = zoom scale picture
 
 data Flip = FlipX | FlipY | FlipXY
   deriving Show
 
 instance Transform Flip where
-  apply = todo
+  apply (FlipX) picture  = flipX picture
+  apply (FlipY) picture  = flipY picture
+  apply (FlipXY) picture = flipXY picture
+
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -406,8 +437,9 @@ instance Transform Flip where
 data Chain a b = Chain a b
   deriving Show
 
-instance Transform (Chain a b) where
-  apply = todo
+instance (Transform a, Transform b) => Transform (Chain a b) where
+  apply (Chain a b) picture = apply a $ apply b picture
+
 ------------------------------------------------------------------------------
 
 -- Now we can redefine largeVerticalStripes using the above Transforms.
@@ -444,8 +476,18 @@ checkered = flipBlend largeVerticalStripes2
 data Blur = Blur
   deriving Show
 
+avgColor :: Color -> Color -> Color -> Color -> Color -> Color
+avgColor (Color r1 g1 b1) (Color r2 g2 b2) (Color r3 g3 b3) (Color r4 g4 b4) (Color r5 g5 b5) = Color (avg r1 r2 r3 r4 r5) (avg g1 g2 g3 g4 g5) (avg b1 b2 b3 b4 b5) where avg a b c d e = (a+b+c+d+e) `div` 5
+
 instance Transform Blur where
-  apply = todo
+  apply (Blur) (Picture f) = Picture nf where
+    nf (Coord x y)  = avgColor left top right bottom myColor where
+      myColor         = f (Coord x y)
+      left            = f (Coord (x-1) y)
+      top             = f (Coord x (y+1))
+      right           = f (Coord (x+1) y)
+      bottom          = f (Coord x (y-1))
+
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -463,7 +505,8 @@ data BlurMany = BlurMany Int
   deriving Show
 
 instance Transform BlurMany where
-  apply = todo
+  apply (BlurMany 0) picture      = picture
+  apply (BlurMany count) picture  = apply (BlurMany (count-1)) (apply Blur picture)
 ------------------------------------------------------------------------------
 
 -- Here's a blurred version of our original snowman. See it by running
