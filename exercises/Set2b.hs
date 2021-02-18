@@ -116,6 +116,8 @@ countdown' n s = countdown' (n-1) (s ++ " " ++ (show n) ++ "...")
 --
 -- Ps. your function doesn't need to work for inputs 0 and 1, but
 -- remember this in the next exercise!
+--
+-- Hint: remember the mod function!
 
 smallestDivisor :: Integer -> Integer
 smallestDivisor n = smallestDivisor' n 2

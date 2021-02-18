@@ -162,11 +162,10 @@ eitherDiv x y = Right (div x y)
 --
 -- Hint! Remember pattern matching
 --
--- Exmaples:
---
--- addEithers (Right 1) (Right 2) ==> Right 3
--- addEithers (Right 1) (Left "fail") ==> Left "fail"
--- addEithers (Left "boom") (Left "fail") ==> Left "boom"
+-- Examples:
+--   addEithers (Right 1) (Right 2) ==> Right 3
+--   addEithers (Right 1) (Left "fail") ==> Left "fail"
+--   addEithers (Left "boom") (Left "fail") ==> Left "boom"
 
 addEithers :: Either String Int -> Either String Int -> Either String Int
 addEithers (Right x) (Right y) = Right (x + y)

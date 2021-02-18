@@ -67,12 +67,15 @@ instance Eq a => Eq (List a) where
 ------------------------------------------------------------------------------
 -- Ex 5: below you'll find two datatypes, Egg and Milk. Implement a
 -- type class Price, containing a function price. The price function
--- should return an Int representing the price of the item in a store.
+-- should return the price of an item.
 --
 -- The prices should be as follows:
 -- * chicken eggs cost 20
 -- * chocolate eggs cost 30
 -- * milk costs 15 per liter
+--
+-- Example:
+--   price ChickenEgg  ==>  20
 
 data Egg = ChickenEgg | ChocolateEgg
   deriving Show
@@ -92,7 +95,9 @@ instance Price Milk where
 ------------------------------------------------------------------------------
 -- Ex 6: define the necessary instances in order to be able to compute these:
 --
--- price [Just (ChocolateEgg), Nothing, Just (ChickenEgg)] ==> 50
+-- price (Just ChickenEgg) ==> 20
+-- price [Milk 1, Milk 2]  ==> 45
+-- price [Just ChocolateEgg, Nothing, Just ChickenEgg]  ==> 50
 -- price [Nothing, Nothing, Just (Milk 1), Just (Milk 2)]  ==> 45
 
 instance Price a => Price (Maybe a) where
@@ -230,12 +235,18 @@ instance Addable [a] where
 -- The suit instance should cycle suits in the order Club, Spade,
 -- Diamond, Heart, Club.
 --
--- Also add a function `stepMany` and give it a default implementation
--- using `step`. The function `stepMany` should take multiple
--- (determined by an Int argument) steps like this:
+-- Also add a function `stepMany` to the class and give it a default
+-- implementation using `step`. The function `stepMany` should take
+-- multiple (determined by an Int argument) steps like this:
 --
 --   stepMany 2 Club ==> Diamond
 --   stepMany 3 Diamond ==> Spade
+--
+-- The tests will test the Cycle class and your default implementation
+-- of stepMany by adding an instance like this:
+--
+--    instance Cycle Int where
+--      step = succ
 
 data Color = Red | Green | Blue
   deriving (Show, Eq)
