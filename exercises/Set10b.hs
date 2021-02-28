@@ -1,12 +1,11 @@
 -- This exercise set hides most of Prelude. You only have access to
 -- the Bool, Int and list types, and pattern matching.
-
 {-# LANGUAGE NoImplicitPrelude #-}
 
 module Set10b where
 
-import Mooc.VeryLimitedPrelude
 import Mooc.Todo
+import Mooc.VeryLimitedPrelude
 
 ------------------------------------------------------------------------------
 -- Ex 1: Define the operator ||| that works like ||, but forces its
@@ -19,7 +18,8 @@ import Mooc.Todo
 --   False ||| undefined ==> an error!
 
 (|||) :: Bool -> Bool -> Bool
-x ||| y = todo
+x ||| True = True
+x ||| False = x
 
 ------------------------------------------------------------------------------
 -- Ex 2: Define the function boolLength, that returns the length of a
@@ -33,7 +33,9 @@ x ||| y = todo
 --   length [False,undefined] ==> 2
 
 boolLength :: [Bool] -> Int
-boolLength xs = todo
+boolLength [] = 0
+boolLength (True : xs) = 1 + boolLength xs
+boolLength (False : xs) = 1 + boolLength xs
 
 ------------------------------------------------------------------------------
 -- Ex 3: Define the function validate which, given a predicate and a
@@ -47,7 +49,9 @@ boolLength xs = todo
 --   validate (\x -> undefined) 3  ==>  an error!
 
 validate :: (a -> Bool) -> a -> a
-validate predicate value = todo
+validate predicate value = case predicate value of
+  True -> value
+  False -> value
 
 ------------------------------------------------------------------------------
 -- Ex 4: Even though we can't implement the generic seq function
@@ -81,10 +85,13 @@ class MySeq a where
   myseq :: a -> b -> b
 
 instance MySeq Bool where
-  myseq = todo
+  myseq True b = b
+  myseq False b = b
 
 instance MySeq Int where
-  myseq = todo
+  myseq 0 b = b
+  myseq _ b = b
 
 instance MySeq [a] where
-  myseq = todo
+  myseq [] b = b
+  myseq _ b = b
