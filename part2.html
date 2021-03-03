@@ -754,8 +754,8 @@ It is a type error.
 </ol>
 <h2 id="exercises"><span class="header-section-number">9.7</span> Exercises</h2>
 <ul>
-<li>Set9a - small exercises that recap part 1 of the course</li>
-<li>Set9b - let’s solve the N Queens puzzle!</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set9a.hs">Set9a</a> - small exercises that recap part 1 of the course</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set9b.hs">Set9b</a> - let’s solve the N Queens puzzle!</li>
 <li><a href="https://forms.gle/soVtMeGBxSo6u5zp6">Remember to give feedback!</a></li>
 </ul>
 <h1 id="lecture-10-reductionism"><span class="header-section-number">10</span> Lecture 10: Reductionism</h1>
@@ -1093,7 +1093,7 @@ check digit is 7, 33+7=40 is divisible by 10, valid</code></pre>
 <p>A good heuristic for writing functions that work well with infinite lists is: can the <code>head</code> of the result be evaluated cheaply? Here are two examples of functions that don’t work with infinite inputs. In the case of <code>mapTailRecursive</code>, the problem is that it needs to process the whole input before being in WHNF. In the case of <code>myDrop</code>, the problem is that it uses the function <code>length</code>, doesn’t work for infinite lists since it tries to iterate until the end of the list.</p>
 <div class="sourceCode" id="cb75"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb75-1" data-line-number="1">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</a>
 <a class="sourceLine" id="cb75-2" data-line-number="2">map _ []     <span class="fu">=</span> []</a>
-<a class="sourceLine" id="cb75-3" data-line-number="3">map f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> map x xs</a>
+<a class="sourceLine" id="cb75-3" data-line-number="3">map f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> map f xs</a>
 <a class="sourceLine" id="cb75-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb75-5" data-line-number="5"><span class="ot">mapTailRecursive ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</a>
 <a class="sourceLine" id="cb75-6" data-line-number="6">mapTailRecursive f xs <span class="fu">=</span> go xs []</a>
@@ -1265,7 +1265,7 @@ check digit is 7, 33+7=40 is divisible by 10, valid</code></pre>
 <a class="sourceLine" id="cb96-12" data-line-number="12"><span class="fu">==&gt;</span> seq   <span class="dv">6</span>   (foldl&#39; (<span class="fu">+</span>)   <span class="dv">6</span>   [])</a>
 <a class="sourceLine" id="cb96-13" data-line-number="13"><span class="fu">==&gt;</span> foldl&#39; (<span class="fu">+</span>)   <span class="dv">6</span>   []</a>
 <a class="sourceLine" id="cb96-14" data-line-number="14"><span class="fu">==&gt;</span> <span class="dv">6</span></a></code></pre></div>
-<p>We won’t dive deeper into this subject on this course, but it’s important that you’re aware that <code>seq</code> exists. You can find more about <code>seq</code> on <a href="https://wiki.haskell.org/Seq">the Haskell Wiki</a> and learn more about when it is necessary to add strictness in <a href="http://book.realworldhaskell.org/read/profiling-and-optimization.html">Real World Haskell</a>. Often it’s nicer to use <em>bang patterns</em> instead of <code>seq</code>, as discussed by <a href="https://www.fpcomplete.com/blog/2017/09/all-about-strictness/">FPComplete</a> and <a href="http://book.realworldhaskell.org/read/profiling-and-optimization.html">Real World Haskell</a>.</p>
+<p>We won’t dive deeper into this subject on this course, but it’s important that you’re aware that <code>seq</code> exists. You can find more about <code>seq</code> on <a href="https://wiki.haskell.org/Seq">the Haskell Wiki</a> and learn more about when it is necessary to add strictness in <a href="https://book.realworldhaskell.org/read/profiling-and-optimization.html">Real World Haskell</a>. Often it’s nicer to use <em>bang patterns</em> instead of <code>seq</code>, as discussed by <a href="https://www.fpcomplete.com/blog/2017/09/all-about-strictness/">FPComplete</a> and <a href="http://book.realworldhaskell.org/read/profiling-and-optimization.html">Real World Haskell</a>.</p>
 <h2 id="newtype-declarations"><span class="header-section-number">10.7</span> Newtype Declarations</h2>
 <p>Recall lecture 7. Sometimes we need boxed types. There’s a special keyword <code>newtype</code> that can be used instead of <code>data</code> when a boxed type is needed. <code>newtype</code> expects exactly one constructor, with exactly one field. For instance,</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw">newtype</span> <span class="dt">Money</span> <span class="fu">=</span> <span class="dt">Cents</span> <span class="dt">Int</span></a></code></pre></div>
@@ -1551,8 +1551,8 @@ Yes, because it calls <code>map</code>, which works with infinite lists.
 </ol>
 <h2 id="exercises-1"><span class="header-section-number">10.11</span> Exercises</h2>
 <ul>
-<li>Set10a</li>
-<li>Set10b</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set10a.hs">Set10a</a></li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set10b.hs">Set10b</a></li>
 <li><a href="https://forms.gle/soVtMeGBxSo6u5zp6">Remember to give feedback!</a></li>
 </ul>
 <h1 id="lecture-11-realworld---arealworld"><span class="header-section-number">11</span> Lecture 11: <code>RealWorld -&gt; (a,RealWorld)</code></h1>
@@ -1626,7 +1626,7 @@ word: ever</code></pre>
 <a class="sourceLine" id="cb125-4" data-line-number="4">   <span class="kw">let</span> var2 <span class="fu">=</span> expression</a>
 <a class="sourceLine" id="cb125-5" data-line-number="5">   operationThatProducesTheResult var2</a></code></pre></div>
 <h3 id="examples"><span class="header-section-number">11.2.1</span> Examples</h3>
-<p>You can find useful IO operations in the standard library modules <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Prelude.html">Prelude</a> and <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/System-IO.html">System.IO</a></p>
+<p>You can find useful IO operations in the standard library modules <a href="https://hackage.haskell.org/package/base-4.13.0.0/docs/Prelude.html">Prelude</a> and <a href="https://hackage.haskell.org/package/base-4.13.0.0/docs/System-IO.html">System.IO</a></p>
 <p>Here’s an IO operation that asks the user for a string, and prints out the length of the string.</p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="ot">query ::</span> <span class="dt">IO</span> ()</a>
 <a class="sourceLine" id="cb126-2" data-line-number="2">query <span class="fu">=</span> <span class="kw">do</span></a>
@@ -2125,8 +2125,8 @@ Query the user for a number and return it.
 </ol>
 <h2 id="exercises-2"><span class="header-section-number">11.12</span> Exercises</h2>
 <ul>
-<li>Set11a - basic IO exercises</li>
-<li>Set11b - advanced IO exercises <!-- - TODO Set11c where we implement a whole program --></li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set11a.hs">Set11a</a> - basic IO exercises</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set11b.hs">Set11b</a> - advanced IO exercises <!-- - TODO Set11c where we implement a whole program --></li>
 <li><a href="https://forms.gle/soVtMeGBxSo6u5zp6">Remember to give feedback!</a></li>
 </ul>
 <h1 id="lecture-12-fmap-fmap-fmap"><span class="header-section-number">12</span> Lecture 12: fmap fmap fmap</h1>
@@ -2405,10 +2405,10 @@ Query the user for a number and return it.
 3
 </li>
 </ol>
-<p>Which code snippet completes the next <code>Functor</code> instance?</p>
+<p>Which code snippet completes the next <code>Foldable</code> instance?</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">data</span> <span class="dt">Container</span> x <span class="fu">=</span> <span class="dt">Things</span> x [x]</a>
 <a class="sourceLine" id="cb203-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb203-3" data-line-number="3"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Container</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb203-3" data-line-number="3"><span class="kw">instance</span> <span class="dt">Foldable</span> <span class="dt">Container</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb203-4" data-line-number="4">  <span class="fu">????</span></a></code></pre></div>
 <ol class="quiz">
 <li>
@@ -2426,7 +2426,7 @@ Query the user for a number and return it.
 </ol>
 <h2 id="exercises-3"><span class="header-section-number">12.8</span> Exercises</h2>
 <ul>
-<li>Set12</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set12.hs">Set12</a></li>
 <li><a href="https://forms.gle/soVtMeGBxSo6u5zp6">Remember to give feedback!</a></li>
 </ul>
 <h1 id="lecture-13-a-monoid-in-the-category-of-problems"><span class="header-section-number">13</span> Lecture 13: A Monoid in the Category of Problems</h1>
@@ -2835,7 +2835,7 @@ Query the user for a number and return it.
 <a class="sourceLine" id="cb251-9" data-line-number="9">           <span class="fu">|</span> val <span class="fu">&lt;</span> x   <span class="fu">=</span> <span class="dt">Nothing</span></a>
 <a class="sourceLine" id="cb251-10" data-line-number="10">           <span class="fu">|</span> otherwise <span class="fu">=</span> return x</a></code></pre></div>
 <h2 id="logger-is-a-monad"><span class="header-section-number">13.7</span> Logger is a Monad!</h2>
-<p>We should be able to write a <code>Monad</code> instance for <code>Logger</code> ourselves, by setting <code>&gt;&gt;=</code> to <code>#&gt;</code>. However, due to <a href="http://wiki.haskell.org/Functor-Applicative-Monad_Proposal">recent changes in the Haskell language</a> we must implement <code>Functor</code> and <code>Applicative</code> instances to be allowed to implement the <code>Monad</code> instance. <code>Functor</code> we’ve already met, but what’s <code>Applicative</code>? We’ll find out later. Let’s implement the instances:</p>
+<p>We should be able to write a <code>Monad</code> instance for <code>Logger</code> ourselves, by setting <code>&gt;&gt;=</code> to <code>#&gt;</code>. However, due to <a href="https://wiki.haskell.org/Functor-Applicative-Monad_Proposal">recent changes in the Haskell language</a> we must implement <code>Functor</code> and <code>Applicative</code> instances to be allowed to implement the <code>Monad</code> instance. <code>Functor</code> we’ve already met, but what’s <code>Applicative</code>? We’ll find out later. Let’s implement the instances:</p>
 <!-- TODO should this be in an Examples file as well? -->
 <div class="sourceCode" id="cb252"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="kw">import</span> <span class="dt">Control.Monad</span></a>
 <a class="sourceLine" id="cb252-2" data-line-number="2"></a>
@@ -3281,8 +3281,8 @@ None of the above
 </ol>
 <h2 id="exercises-4"><span class="header-section-number">13.17</span> Exercises</h2>
 <ul>
-<li>Set13a</li>
-<li>Set13b</li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set13a.hs">Set13a</a></li>
+<li><a href="https://github.com/moocfi/haskell-mooc/blob/master/exercises/Set13b.hs">Set13b</a></li>
 <li><a href="https://forms.gle/soVtMeGBxSo6u5zp6">Remember to give feedback!</a></li>
 </ul>
 </div>
