@@ -766,7 +766,7 @@ It is a type error.
 </ul>
 <h2 id="laziness-purity"><span class="header-section-number">10.1</span> Laziness &amp; Purity</h2>
 <p>Purity and laziness were mentioned as key features of Haskell in the beginning of part 1. Let’s take a closer look at them.</p>
-<p>Haskell is a <em>pure</em> functional language. This means that the value <code>f x y</code> is always the same if the values <code>x</code> and <code>y</code> are the same. This property is also called <em>referential transparency</em>.</p>
+<p>Haskell is a <em>pure</em> functional language. This means that the value <code>f x y</code> is always the same for given <code>x</code> and <code>y</code>. In other words, the values of <code>x</code> and <code>y</code> uniquely determine the value of <code>f x y</code>. This property is also called <em>referential transparency</em>.</p>
 <p>Purity also means that there are no side effects: you can’t have the evaluation of <code>f x y</code> read a line from the user - the line would be different on different invocations of <code>f</code> and would affect the return value, breaking referential transparency! Obviously you need side effects to actually get something done. We’ll get back to how Haskell handles side effects later.</p>
 <p>Haskell is a <em>lazy</em> language. This means that a value is not evaluated if it is not needed. An example illustrates this best. Consider these two functions:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb37-1" data-line-number="1">f x <span class="fu">=</span> f x   <span class="co">-- infinite recursion</span></a>
@@ -2167,7 +2167,7 @@ Query the user for a number and return it.
 <a class="sourceLine" id="cb181-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb181-3" data-line-number="3"><span class="ot">mapTree ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b</a>
 <a class="sourceLine" id="cb181-4" data-line-number="4">mapTree f <span class="dt">Leaf</span> <span class="fu">=</span> <span class="dt">Leaf</span></a>
-<a class="sourceLine" id="cb181-5" data-line-number="5">mapTree f (<span class="dt">Node</span> val left right) <span class="fu">=</span> <span class="dt">Node</span> (f x) (mapTree f left) (mapTree f right)</a></code></pre></div>
+<a class="sourceLine" id="cb181-5" data-line-number="5">mapTree f (<span class="dt">Node</span> val left right) <span class="fu">=</span> <span class="dt">Node</span> (f val) (mapTree f left) (mapTree f right)</a></code></pre></div>
 <p>A binary tree might look like this:</p>
 <figure>
 <img src="img/mapTreeBefore.svg" alt="A binary tree" /><figcaption>A binary tree</figcaption>
@@ -2316,7 +2316,7 @@ Query the user for a number and return it.
 <a class="sourceLine" id="cb200-2" data-line-number="2">fmap (<span class="fu">+</span><span class="dv">1</span>) [<span class="dv">3</span>,<span class="dv">6</span>]        <span class="fu">==&gt;</span> [<span class="dv">4</span>,<span class="dv">7</span>]</a>
 <a class="sourceLine" id="cb200-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb200-4" data-line-number="4">foldr (<span class="fu">*</span>) <span class="dv">1</span> (<span class="dt">Pair</span> <span class="dv">3</span> <span class="dv">6</span>) <span class="fu">==&gt;</span> <span class="dv">18</span></a>
-<a class="sourceLine" id="cb200-5" data-line-number="5">foldr (<span class="fu">*</span>) <span class="dv">1</span> (<span class="dt">Pair</span> <span class="dv">3</span> <span class="dv">6</span>) <span class="fu">==&gt;</span> <span class="dv">18</span></a>
+<a class="sourceLine" id="cb200-5" data-line-number="5">foldr (<span class="fu">*</span>) <span class="dv">1</span> [<span class="dv">3</span>,<span class="dv">6</span>]      <span class="fu">==&gt;</span> <span class="dv">18</span></a>
 <a class="sourceLine" id="cb200-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb200-7" data-line-number="7">length (<span class="dt">Pair</span> <span class="dv">3</span> <span class="dv">6</span>)      <span class="fu">==&gt;</span> <span class="dv">2</span></a>
 <a class="sourceLine" id="cb200-8" data-line-number="8">length [<span class="dv">3</span>,<span class="dv">6</span>]           <span class="fu">==&gt;</span> <span class="dv">2</span></a>

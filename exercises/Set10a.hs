@@ -121,8 +121,8 @@ chunks n xs = if lengthAtLeast n xs then take n xs : chunks n (tail xs) else []
 -- Hint: remember Data.Char.toLower
 --
 -- Examples:
---   ignorecase "abC" == ignoreCase "ABc"  ==>  True
---   ignorecase "acC" == ignoreCase "ABc"  ==>  False
+--   ignorecase "abC" == ignorecase "ABc"  ==>  True
+--   ignorecase "acC" == ignorecase "ABc"  ==>  False
 
 newtype IgnoreCase = IgnoreCase String
 
