@@ -50,7 +50,7 @@ interleave = interleaveA
 --
 -- Make sure your function works with infinite inputs as well!
 --
--- Example:
+-- Examples:
 --   deal ["Hercule","Ariadne"] ["Ace","Joker","Heart"]
 --     ==> [("Ace","Hercule"),("Joker","Ariadne"),("Heart","Hercule")]
 --   take 4 (deal ["a","b","c"] (map show [0..]))
@@ -64,7 +64,25 @@ deal :: [String] -> [String] -> [(String, String)]
 deal players cards = zip cards $ cycle players
 
 ------------------------------------------------------------------------------
--- Ex 4: Given two lists, xs and ys, and an element z, generate an
+-- Ex 4: Compute a running average. Go through a list of Doubles and
+-- output a list of averages: the average of the first number, the
+-- average of the first two numbers, the first three numbers, and so
+-- on.
+--
+-- Make sure your function works with infinite inputs as well!
+--
+-- Examples:
+--   averages [] ==> []
+--   averages [3,2,1] ==> [3.0,2.5,2.0]
+--   take 10 (averages [1..]) ==> [1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5]
+
+
+
+averages :: [Double] -> [Double]
+averages = todo
+
+------------------------------------------------------------------------------
+-- Ex 5: Given two lists, xs and ys, and an element z, generate an
 -- infinite list that consists of
 --
 --  * the elements of xs
@@ -82,7 +100,7 @@ alternate :: [a] -> [a] -> a -> [a]
 alternate xs ys z = cycle $ xs ++ [z] ++ ys ++ [z]
 
 ------------------------------------------------------------------------------
--- Ex 5: Check if the length of a list is at least n. Make sure your
+-- Ex 6: Check if the length of a list is at least n. Make sure your
 -- function works for infinite inputs.
 --
 -- Examples:
@@ -97,7 +115,7 @@ lengthAtLeast n = len 0
     len n' (_ : xs') = n' >= n || len (n' + 1) xs'
 
 ------------------------------------------------------------------------------
--- Ex 6: The function chunks should take in a list, and a number n,
+-- Ex 7: The function chunks should take in a list, and a number n,
 -- and return all sublists of length n of the original list.
 --
 -- Make sure your function works with infinite inputs. The function
@@ -111,7 +129,7 @@ chunks :: Int -> [a] -> [[a]]
 chunks n xs = if lengthAtLeast n xs then take n xs : chunks n (tail xs) else []
 
 ------------------------------------------------------------------------------
--- Ex 7: Define a newtype called IgnoreCase, that wraps a value of
+-- Ex 8: Define a newtype called IgnoreCase, that wraps a value of
 -- type String. Define an `Eq` instance for IgnoreCase so that it
 -- compares strings in a case-insensitive way.
 --
@@ -133,7 +151,7 @@ ignorecase :: String -> IgnoreCase
 ignorecase = IgnoreCase
 
 ------------------------------------------------------------------------------
--- Ex 8: Here's the Room type and some helper functions from the
+-- Ex 9: Here's the Room type and some helper functions from the
 -- course material. Define a cyclic Room structure like this:
 --
 --  * maze1 has the description "Maze"
